@@ -1,3 +1,9 @@
+/**
+ * The groovy-nano-template class replaces placeholders in a string with values from an array.
+ *
+ * @author   Andreas Zettl <info@azettl.net>
+ * @see      https://github.com/azettl/groovy-nano-template
+ */
 class Template {
 
     private String  sTemplate  = ''
@@ -5,36 +11,70 @@ class Template {
     private Boolean bShowEmpty = false
     private String  sOutput    = ''
 
+    /**
+     * This method is used to set the template string in which
+     * the placeholders should get replaced.
+     * @param sUserTemplate
+     */
     void setTemplate(String sUserTemplate)
     {
         sTemplate = sUserTemplate
     }
 
+    /**
+     * This method is used to return the current template string.
+     *
+     * @return
+     */
     String getTemplate()
     {
         sTemplate
     }
 
+    /**
+     * This method is used to set the data array in which
+     * the data for the placeholders is stored.
+     * @param aUserData
+     */
     void setData(Map aUserData)
     {
         aData = aUserData
     }
 
+    /**
+     * This method is used to get the current data array.
+     * @return
+     */
     Map getData()
     {
         aData
     }
 
+    /**
+     * This method is used to set whether placeholders which could not
+     * be replaced shall remain in the output string or not.
+     * @param bUserShowEmpty
+     */
     void setShowEmpty(Boolean bUserShowEmpty)
     {
         bShowEmpty = bUserShowEmpty
     }
 
+    /**
+     * This method is used to get the current show empty placeholder
+     * status.
+     * @return
+     */
     Boolean getShowEmpty()
     {
         bShowEmpty
     }
 
+    /**
+     * This method replaces the placeholders in the template string with
+     * the values from the data object and returns the new string.
+     * @return
+     */
     String render(){
         getTemplate().replaceAll(
                 /\{(.*?)\}/,
@@ -47,9 +87,9 @@ class Template {
                     aToSearch.each { sKey ->
 
                         String sFormattedKey = sKey.replace('()', '')
-                        if(getFunctionNameAndParameter(sKey) instanceof List){
+                        if(getFunctionParameter(sKey) instanceof List){
 
-                            List aFormattedKey   = getFunctionNameAndParameter(sKey)
+                            List aFormattedKey   = getFunctionParameter(sKey)
 
                             if(aFormattedKey[0] instanceof List){
                                 mParameter = aFormattedKey[0][1]
@@ -86,7 +126,13 @@ class Template {
         ).replaceAll(/^\s+|\n|\r|\t/, '')
     }
 
-    private static List getFunctionNameAndParameter(String sKey)
+    /**
+     * Return a List with the function parameters.
+     *
+     * @param String sKey   the key including the function parameter
+     * @return List
+     */
+    private static List getFunctionParameter(String sKey)
     {
         sKey.findAll(/\((.*?)\)/){ res -> res }
     }
