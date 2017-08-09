@@ -5,10 +5,6 @@ class Template {
     private Boolean bShowEmpty = false
     private String  sOutput    = ''
 
-    Template(){
-
-    }
-
     void setTemplate(String sUserTemplate)
     {
         sTemplate = sUserTemplate
@@ -44,12 +40,6 @@ class Template {
                 /\{(.*?)\}/,
                 { word -> aData[word[1]] } )
 
-        println(sOutput)
+        sOutput
     }
 }
-
-
-Template demo = new Template()
-demo.setTemplate('Hello {demooo} {welt}')
-demo.setData([demooo:1, welt:'world'])
-demo.render()
