@@ -36,7 +36,7 @@ class Template {
     }
 
     String render(){
-        sOutput = getTemplate().replaceAll(
+        getTemplate().replaceAll(
                 /\{(.*?)\}/,
                 { word ->
                     List aToSearch = word[1].tokenize('.')
@@ -82,11 +82,8 @@ class Template {
                     }
 
                     sValue
-                } )
-
-        sOutput = sOutput.replaceAll(/^\s+|\n|\r|\t/, '')
-
-        sOutput
+                }
+        ).replaceAll(/^\s+|\n|\r|\t/, '')
     }
 
     private static List getFunctionNameAndParameter(String sKey)
