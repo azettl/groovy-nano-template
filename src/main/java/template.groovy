@@ -36,10 +36,61 @@ class Template {
     }
 
     String render(){
-        sOutput = sTemplate.replaceAll(
+        sOutput = getTemplate().replaceAll(
                 /\{(.*?)\}/,
-                { word -> aData[word[1]] } )
+                { word ->
+                    List aToSearch = word[1].tokenize('.')
+                    Object aSearchIn = getData()
+                    def sValue       = ''
+                    def mParameter   = ''
+
+                    aToSearch.each { sKey ->
+
+                        String sFormattedKey = sKey.replace('()', '')
+                        if(getFunctionNameAndParameter(sKey) instanceof List){
+
+                            List aFormattedKey   = getFunctionNameAndParameter(sKey)
+
+                            if(aFormattedKey[0] instanceof List){
+                                mParameter = aFormattedKey[0][1]
+                                sFormattedKey = sKey.replace(aFormattedKey[0][0], '')
+                            }
+                        }
+
+                        sValue = aSearchIn[sFormattedKey]
+
+                        if(sValue instanceof String){
+                            return
+                        }else if (sValue.getClass() != java.util.LinkedHashMap
+                                && sValue.getClass() != org.codehaus.groovy.runtime.NullObject){
+                            if(mParameter){
+                                mParameter = mParameter.replaceAll(/^["\'](.*)["\']$/, { res -> res[1] })
+                                sValue = sValue(mParameter)
+                            } else {
+                                sValue = sValue()
+                            }
+                            return
+                        }else if(!getShowEmpty() && sValue.getClass() == org.codehaus.groovy.runtime.NullObject){
+                            sValue = ''
+                            return
+                        }else if(getShowEmpty() && sValue.getClass() == org.codehaus.groovy.runtime.NullObject){
+                            sValue = word[0]
+                            return
+                        }
+
+                        aSearchIn = sValue
+                    }
+
+                    sValue
+                } )
+
+        sOutput = sOutput.replaceAll(/^\s+|\n|\r|\t/, '')
 
         sOutput
+    }
+
+    private static List getFunctionNameAndParameter(String sKey)
+    {
+        sKey.findAll(/\((.*?)\)/){ res -> res }
     }
 }
