@@ -1,3 +1,4 @@
+package com.azettl.nano
 /**
  * The groovy-nano-template class replaces placeholders in a string with values from an array.
  *

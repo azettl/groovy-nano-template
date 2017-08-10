@@ -1,4 +1,4 @@
-import Template
+import com.azettl.nano.Template
 
 class templateTest
         extends GroovyTestCase {
