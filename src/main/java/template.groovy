@@ -22,6 +22,22 @@ class Template {
     }
 
     /**
+     * This method is used to set the template from a relative
+     * path.
+     * @param sRelativePathToFile
+     */
+    void setTemplateFile(String sRelativePathToFile)
+    {
+        def file = new File(sRelativePathToFile);
+
+        if(!file.isFile()) {
+            throw new FileNotFoundException('Template file not found.');
+        }
+
+        setTemplate(file.text);
+    }
+
+    /**
      * This method is used to return the current template string.
      *
      * @return

@@ -39,23 +39,34 @@ class templateTest
         )
     }
 
-  /*
-    @todo add these methods to the template class
-
     void testCanSetTemplateFile()
     {
+        Template demo = new Template()
+        demo.setTemplateFile('src/test/java/template.html')
+        demo.setData(_getTestData())
 
+        assertEquals(
+                '<p>Hello Anon Ymous! Your account is <strong>active</strong> </p>',
+                demo.render()
+        )
     }
 
     void testThrowsErrorWithInvalidTemplateFile()
     {
-    }
+        Template demo = new Template()
+        demo.setData(_getTestData())
 
 
-    void testCanSetTemplateFileAndReplaceString()
-    {
+        boolean thrown = false
+        try{
+            demo.setTemplateFile('src/test/java/template.Wrong.html')
+        } catch (FileNotFoundException expected ){
+            thrown = true
+            assertEquals( 'Template file not found', 'Template file not found')
+        }
+        assertTrue(thrown);
     }
-*/
+
     void testCanReplaceStringAndShowEmpty()
     {
         Template demo = new Template()
