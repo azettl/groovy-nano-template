@@ -31,13 +31,13 @@ class Template {
      */
     void setTemplateFile(String sRelativePathToFile)
     {
-        def file = new File(sRelativePathToFile);
+        def file = new File(sRelativePathToFile)
 
         if(!file.isFile()) {
-            throw new FileNotFoundException('Template file not found.');
+            throw new FileNotFoundException('Template file not found.')
         }
 
-        setTemplate(file.text);
+        setTemplate(file.text)
     }
 
     /**
