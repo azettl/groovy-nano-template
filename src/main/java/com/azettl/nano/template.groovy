@@ -120,6 +120,7 @@ class Template {
                         def mValueClass = sValue.getClass()
 
                         if(mValueClass != String && mValueClass != LinkedHashMap && mValueClass != NullObject){
+
                             if(mParameter){
                                 mParameter = mParameter.replaceAll(/^["\'](.*)["\']$/, { res -> res[1] })
                                 sValue     = sValue(mParameter as String)

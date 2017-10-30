@@ -6,7 +6,7 @@
 
     <groupId>com.azettl.nano</groupId>
     <artifactId>groovy-nano-template</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
