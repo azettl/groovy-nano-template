@@ -1,9 +1,12 @@
 package com.azettl.nano
+
+import org.codehaus.groovy.runtime.NullObject
+
 /**
  * The groovy-nano-template class replaces placeholders in a string with values from an array.
  *
  * @author   Andreas Zettl <info@azettl.net>
- * @see      https://github.com/azettl/groovy-nano-template
+ * @url      https://github.com/azettl/groovy-nano-template
  */
 class Template {
 
@@ -95,7 +98,7 @@ class Template {
         getTemplate().replaceAll(
                 /\{(.*?)\}/,
                 { word ->
-                    List aToSearch = word[1].tokenize('.')
+                    List aToSearch   = word[1].tokenize('.')
                     Object aSearchIn = getData()
                     def sValue       = ''
                     def mParameter   = ''
@@ -113,23 +116,26 @@ class Template {
                             }
                         }
 
-                        sValue = aSearchIn[sFormattedKey]
+                        sValue      = aSearchIn[sFormattedKey]
+                        def mValueClass = sValue.getClass()
 
                         if(sValue instanceof String){
                             return
-                        }else if (sValue.getClass() != java.util.LinkedHashMap
-                                && sValue.getClass() != org.codehaus.groovy.runtime.NullObject){
+                        }else if (mValueClass != LinkedHashMap && mValueClass != NullObject){
                             if(mParameter){
                                 mParameter = mParameter.replaceAll(/^["\'](.*)["\']$/, { res -> res[1] })
                                 sValue = sValue(mParameter)
-                            } else {
-                                sValue = sValue()
+                                return
                             }
+
+                            sValue = sValue()
                             return
-                        }else if(!getShowEmpty() && sValue.getClass() == org.codehaus.groovy.runtime.NullObject){
-                            sValue = ''
-                            return
-                        }else if(getShowEmpty() && sValue.getClass() == org.codehaus.groovy.runtime.NullObject){
+                        }else if(mValueClass == NullObject){
+                            if(!getShowEmpty()){
+                                sValue = ''
+                                return
+                            }
+
                             sValue = word[0]
                             return
                         }
