@@ -106,9 +106,9 @@ class Template {
                     aToSearch.each { sKey ->
 
                         String sFormattedKey = sKey.replace('()', '')
-                        if(getFunctionParameter(sKey) instanceof List){
+                        if(getFunctionParameter(sKey as String) instanceof List){
 
-                            List aFormattedKey = getFunctionParameter(sKey)
+                            List aFormattedKey = getFunctionParameter(sKey as String)
 
                             if(aFormattedKey[0] instanceof List){
                                 mParameter    = aFormattedKey[0][1]
@@ -116,15 +116,13 @@ class Template {
                             }
                         }
 
-                        sValue      = aSearchIn[sFormattedKey]
+                        sValue          = aSearchIn[sFormattedKey]
                         def mValueClass = sValue.getClass()
 
-                        if(sValue instanceof String){
-                            return
-                        }else if (mValueClass != LinkedHashMap && mValueClass != NullObject){
+                        if(mValueClass != String && mValueClass != LinkedHashMap && mValueClass != NullObject){
                             if(mParameter){
                                 mParameter = mParameter.replaceAll(/^["\'](.*)["\']$/, { res -> res[1] })
-                                sValue = sValue(mParameter)
+                                sValue     = sValue(mParameter as String)
                                 return
                             }
 
