@@ -10,7 +10,6 @@ class Template {
     private String  sTemplate  = ''
     private Map     aData      = [:]
     private Boolean bShowEmpty = false
-    private String  sOutput    = ''
 
     /**
      * This method is used to set the template string in which
@@ -106,10 +105,10 @@ class Template {
                         String sFormattedKey = sKey.replace('()', '')
                         if(getFunctionParameter(sKey) instanceof List){
 
-                            List aFormattedKey   = getFunctionParameter(sKey)
+                            List aFormattedKey = getFunctionParameter(sKey)
 
                             if(aFormattedKey[0] instanceof List){
-                                mParameter = aFormattedKey[0][1]
+                                mParameter    = aFormattedKey[0][1]
                                 sFormattedKey = sKey.replace(aFormattedKey[0][0], '')
                             }
                         }
